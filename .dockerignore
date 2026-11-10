@@ -1,0 +1,7 @@
+.git
+build
+dist
+target
+nbproject/private
+.env
+*.war

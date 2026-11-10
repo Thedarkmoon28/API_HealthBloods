@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vital | Información sobre la sangre</title>
+
+  <style>
+    :root {
+      --rojo: #ac2845;
+      --oscuro: #33272d;
+      --gris: #786b70;
+      --fondo: #fffaf7;
+      --borde: #eadfdd;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--fondo);
+      color: var(--oscuro);
+      line-height: 1.7;
+    }
+
+    header,
+    main,
+    footer {
+      max-width: 1100px;
+      margin: auto;
+      padding: 24px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      text-decoration: none;
+      color: var(--oscuro);
+    }
+
+    .logo span {
+      color: var(--rojo);
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--gris);
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .portada {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 40px;
+      align-items: center;
+      padding: 65px 0;
+    }
+
+    .etiqueta {
+      color: var(--rojo);
+      font-size: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    h1 {
+      font-size: clamp(44px, 6vw, 76px);
+      line-height: 1.08;
+      letter-spacing: -2px;
+      margin: 20px 0;
+    }
+
+    h1 span {
+      color: var(--rojo);
+    }
+
+    .introduccion {
+      color: var(--gris);
+      font-size: 18px;
+    }
+
+    .acciones {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button,
+    .boton {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      background: white;
+      color: var(--oscuro);
+      font: inherit;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button:hover,
+    .boton:hover {
+      border-color: var(--rojo);
+    }
+
+    :focus-visible {
+      outline: 3px solid #d58799;
+      outline-offset: 4px;
+    }
+
+    .principal {
+      background: var(--rojo);
+      color: white;
+      border-color: var(--rojo);
+    }
+
+    .ilustracion {
+      position: relative;
+      height: 310px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #f5e1e5;
+      border-radius: 160px 160px 80px 80px;
+    }
+
+    .celula {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      border: 27px solid #bd3652;
+      border-radius: 50%;
+      background: #e98b9e;
+      transform: rotate(-25deg) scaleY(0.65);
+      box-shadow:
+        inset 0 0 20px #aa2a49,
+        0 25px 35px #a8264233;
+    }
+
+    .celula::before,
+    .celula::after {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border: 15px solid #c84962;
+      border-radius: 50%;
+      background: #eda1b0;
+    }
+
+    .celula::before {
+      left: -110px;
+      top: -90px;
+    }
+
+    .celula::after {
+      right: -100px;
+      bottom: -100px;
+    }
+
+    .ilustracion small {
+      position: absolute;
+      bottom: 20px;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: #8e3d50;
+    }
+
+    .encabezado-seccion {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    h2 {
+      font-size: 30px;
+      line-height: 1.2;
+      margin: 10px 0;
+    }
+
+    input {
+      width: 270px;
+      max-width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--borde);
+      border-radius: 10px;
+      font: inherit;
+      background: white;
+    }
+
+    .tarjetas {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .tarjeta {
+      display: flex;
+      flex-direction: column;
+      padding: 28px;
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      background: white;
+    }
+
+    .numero {
+      color: var(--rojo);
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .tarjeta h3 {
+      font-size: 23px;
+      line-height: 1.3;
+      margin: 14px 0;
+    }
+
+    .tarjeta p {
+      margin: 0 0 24px;
+      color: var(--gris);
+    }
+
+    .tarjeta button {
+      align-self: flex-start;
+      margin-top: auto;
+      padding: 8px 14px;
+    }
+
+    .descarga {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 40px 0;
+      padding: 30px;
+      border-radius: 16px;
+      background: #382930;
+      color: white;
+    }
+
+    .descarga p {
+      color: #e6d5dc;
+      margin-bottom: 0;
+    }
+
+    .fuentes {
+      padding: 10px 0 30px;
+      font-size: 14px;
+      color: var(--gris);
+    }
+
+    .fuentes a {
+      color: var(--rojo);
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid var(--borde);
+      color: var(--gris);
+      font-size: 13px;
+    }
+
+    #aviso {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 90%;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: var(--oscuro);
+      color: white;
+      box-shadow: 0 5px 20px #0002;
+    }
+
+    #aviso:empty,
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 650px) {
+      header,
+      main,
+      footer {
+        padding: 18px;
+      }
+
+      nav {
+        gap: 12px;
+      }
+
+      .portada {
+        grid-template-columns: 1fr;
+        padding: 35px 0;
+        gap: 25px;
+      }
+
+      .ilustracion {
+        height: 210px;
+      }
+
+      .tarjetas {
+        grid-template-columns: 1fr;
+      }
+
+      .encabezado-seccion,
+      .descarga,
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      input {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a class="logo" href="#"><span>●</span> vital.</a>
+
+    <nav aria-label="Navegación principal">
+      <a href="#informacion">Información</a>
+      <a href="#fuentes">Fuentes</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="portada">
+      <div>
+        <div class="etiqueta">El cuerpo, explicado fácil</div>
+
+        <h1>Un tejido que<br>nos da <span>vida.</span></h1>
+
+        <p class="introduccion">
+          Conoce la sangre y sus componentes. Explora la información
+          y copia el texto que necesites para tu proyecto.
+        </p>
+
+        <div class="acciones">
+          <a class="boton principal" href="#informacion">
+            Explorar información ↓
+          </a>
+
+          <button id="copiarTodo" type="button">
+            Copiar todo el texto
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="ilustracion"
+        role="img"
+        aria-label="Ilustración de glóbulos rojos"
+      >
+        <div class="celula"></div>
+        <small>TRANSPORTAR · DEFENDER · PROTEGER</small>
+      </div>
+    </section>
+
+    <section id="informacion">
+      <div class="encabezado-seccion">
+        <div>
+          <div class="etiqueta">Conceptos esenciales</div>
+          <h2>Conoce lo que te mueve.</h2>
+        </div>
+
+        <div>
+          <label class="etiqueta" for="busqueda">Buscar un tema</label>
+          <br>
+          <input
+            id="busqueda"
+            type="search"
+            placeholder="Ej. plasma, oxígeno…"
+          >
+        </div>
+      </div>
+
+      <div class="tarjetas">
+        <article class="tarjeta" data-id="sangre">
+          <span class="numero">01 / LO ESENCIAL</span>
+          <h3>¿Qué es la sangre?</h3>
+          <p>
+            La sangre es un tejido líquido que circula por los vasos
+            sanguíneos. Lleva sustancias a los tejidos y recoge
+            productos de desecho.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+
+        <article class="tarjeta" data-id="plasma">
+          <span class="numero">02 / TRANSPORTE</span>
+          <h3>Plasma</h3>
+          <p>
+            El plasma es la parte líquida de la sangre. Contiene
+            principalmente agua y transporta proteínas, nutrientes
+            y otras sustancias.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+
+        <article class="tarjeta" data-id="globulos-rojos">
+          <span class="numero">03 / OXÍGENO</span>
+          <h3>Glóbulos rojos</h3>
+          <p>
+            Los glóbulos rojos, o eritrocitos, contienen hemoglobina,
+            una proteína que permite transportar oxígeno desde
+            los pulmones hacia los tejidos.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+
+        <article class="tarjeta" data-id="globulos-blancos">
+          <span class="numero">04 / DEFENSA</span>
+          <h3>Glóbulos blancos</h3>
+          <p>
+            Los glóbulos blancos, o leucocitos, forman parte del
+            sistema inmunitario. Ayudan al organismo a combatir
+            infecciones.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+
+        <article class="tarjeta" data-id="plaquetas">
+          <span class="numero">05 / COAGULACIÓN</span>
+          <h3>Plaquetas</h3>
+          <p>
+            Las plaquetas son fragmentos celulares que participan
+            en la coagulación. Junto con proteínas de la sangre,
+            ayudan a detener el sangrado cuando se lesiona un
+            vaso sanguíneo.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+
+        <article class="tarjeta" data-id="analisis">
+          <span class="numero">06 / ESTUDIO</span>
+          <h3>Conteo sanguíneo completo</h3>
+          <p>
+            El conteo sanguíneo completo es un análisis que mide
+            componentes de la sangre, como glóbulos rojos,
+            glóbulos blancos y plaquetas. Sus resultados se
+            interpretan junto con el contexto clínico de
+            cada persona.
+          </p>
+          <button type="button">Copiar texto ↗</button>
+        </article>
+      </div>
+
+      <p id="sinResultados" hidden>
+        No se encontraron temas. Prueba con otra palabra.
+      </p>
+    </section>
+
+    <aside class="descarga">
+      <div>
+        <h2>La información, lista para llevar.</h2>
+        <p>
+          Descarga los temas en formato JSON para integrarlos
+          en tu proyecto.
+        </p>
+      </div>
+
+      <button id="descargarJSON" type="button">
+        Descargar JSON ↓
+      </button>
+    </aside>
+
+    <section class="fuentes" id="fuentes">
+      <h2>Fuentes de consulta</h2>
+
+      <ul>
+        <li>
+          <a href="https://medlineplus.gov/spanish/blood.html">
+            MedlinePlus: Sangre
+          </a>
+        </li>
+        <li>
+          <a href="https://medlineplus.gov/spanish/pruebas-de-laboratorio/conteo-sanguineo-completo/">
+            MedlinePlus: Conteo sanguíneo completo
+          </a>
+        </li>
+        <li>
+          <a href="https://www.redcrossblood.org/espanol/donar-sangre/acerca-de-la-sangre.html">
+            Cruz Roja Americana: Acerca de la sangre
+          </a>
+        </li>
+      </ul>
+
+      <p>
+        Información general para fines educativos; no ofrece
+        diagnósticos ni interpreta resultados individuales.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <span>vital. / Información sobre la sangre</span>
+    <span>Aprende. Consulta. Comparte.</span>
+  </footer>
+
+  <div id="aviso" role="status" aria-live="polite"></div>
+
+  <script type="application/json" id="datos-sangre">{}</script>
+
+  <script>
+    "use strict";
+
+    const tarjetas = Array.from(
+      document.querySelectorAll(".tarjeta")
+    );
+
+    function limpiarTexto(texto) {
+      return texto.replace(/\s+/g, " ").trim();
+    }
+
+    const temas = tarjetas.map(tarjeta => ({
+      id: tarjeta.dataset.id,
+      titulo: limpiarTexto(
+        tarjeta.querySelector("h3").textContent
+      ),
+      contenido: limpiarTexto(
+        tarjeta.querySelector("p").textContent
+      )
+    }));
+
+    const datos = {
+      idioma: "es",
+      temas,
+      fuentes: Array.from(
+        document.querySelectorAll(".fuentes a")
+      ).map(enlace => ({
+        titulo: limpiarTexto(enlace.textContent),
+        url: enlace.href
+      }))
+    };
+
+    document.getElementById("datos-sangre").textContent =
+      JSON.stringify(datos);
+
+    // API local para usar desde otros scripts de esta página.
+    // Un archivo HTML por sí solo no crea una API HTTP.
+    window.sangreAPI = Object.freeze({
+      obtenerTodos() {
+        return JSON.parse(JSON.stringify(datos));
+      },
+
+      obtenerTema(id) {
+        const tema = temas.find(elemento => elemento.id === id);
+        return tema ? { ...tema } : null;
+      }
+    });
+
+    let temporizador;
+
+    function mostrarAviso(mensaje) {
+      document.getElementById("aviso").textContent = mensaje;
+      clearTimeout(temporizador);
+
+      temporizador = setTimeout(() => {
+        document.getElementById("aviso").textContent = "";
+      }, 3500);
+    }
+
+    async function copiarTexto(texto) {
+      const focoAnterior = document.activeElement;
+
+      try {
+        if (!navigator.clipboard || !window.isSecureContext) {
+          throw new Error("Usar método alternativo");
+        }
+
+        await navigator.clipboard.writeText(texto);
+        mostrarAviso("Texto copiado. Listo para pegar.");
+      } catch {
+        const campo = document.createElement("textarea");
+        campo.value = texto;
+        campo.style.cssText =
+          "position:fixed;top:0;left:0;width:1px;height:1px;";
+
+        document.body.appendChild(campo);
+        campo.focus();
+        campo.select();
+
+        let copiado = false;
+
+        try {
+          copiado = document.execCommand("copy");
+        } catch {
+          copiado = false;
+        }
+
+        campo.remove();
+
+        if (focoAnterior instanceof HTMLElement) {
+          focoAnterior.focus();
+        }
+
+        mostrarAviso(
+          copiado
+            ? "Texto copiado. Listo para pegar."
+            : "Selecciona el texto y usa Ctrl+C para copiarlo."
+        );
+      }
+    }
+
+    tarjetas.forEach((tarjeta, indice) => {
+      tarjeta.querySelector("button").addEventListener(
+        "click",
+        () => {
+          const tema = temas[indice];
+          copiarTexto(tema.titulo + "\n\n" + tema.contenido);
+        }
+      );
+    });
+
+    document.getElementById("copiarTodo").addEventListener(
+      "click",
+      () => {
+        const texto = temas
+          .map(tema => tema.titulo + "\n" + tema.contenido)
+          .join("\n\n");
+
+        copiarTexto(texto);
+      }
+    );
+
+    function normalizar(texto) {
+      return texto
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+    }
+
+    document.getElementById("busqueda").addEventListener(
+      "input",
+      evento => {
+        const busqueda = normalizar(evento.target.value.trim());
+
+        tarjetas.forEach((tarjeta, indice) => {
+          const tema = temas[indice];
+          const texto = normalizar(
+            tema.titulo + " " + tema.contenido
+          );
+
+          tarjeta.hidden = !texto.includes(busqueda);
+        });
+
+        document.getElementById("sinResultados").hidden =
+          tarjetas.some(tarjeta => !tarjeta.hidden);
+      }
+    );
+
+    document.getElementById("descargarJSON").addEventListener(
+      "click",
+      () => {
+        const archivo = new Blob(
+          [JSON.stringify(datos, null, 2)],
+          { type: "application/json;charset=utf-8" }
+        );
+
+        const url = URL.createObjectURL(archivo);
+        const enlace = document.createElement("a");
+
+        enlace.href = url;
+        enlace.download = "informacion-sangre.json";
+
+        document.body.appendChild(enlace);
+        enlace.click();
+        enlace.remove();
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        mostrarAviso("Descarga de JSON iniciada.");
+      }
+    );
+  </script>
+</body>
+</html>
