@@ -1,0 +1,15 @@
+meta {
+  name: 07 Historial
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/registros
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

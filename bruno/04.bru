@@ -1,0 +1,15 @@
+meta {
+  name: 04 Buscar producto
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/productos?q=852583
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,15 @@
+meta {
+  name: 08 Favorito
+  type: http
+  seq: 8
+}
+
+put {
+  url: {{baseUrl}}/favoritos/{{productoID}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}

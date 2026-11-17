@@ -1,0 +1,29 @@
+meta {
+  name: 06 Guardar
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/registros
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "id": "{{registroID}}",
+  "productoID": "{{productoID}}",
+  "tipoCaptura": "CAJAS",
+  "cantidad": 3,
+  "fechaDescongelacion": "2026-11-12"
+}
+}

@@ -1,0 +1,26 @@
+meta {
+  name: 10 Revisión
+  type: http
+  seq: 10
+}
+
+post {
+  url: {{baseUrl}}/registros/{{registroID}}/revisiones
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+{
+  "resultado": "RETIRADO",
+  "observaciones": "Revisión del producto"
+}
+}

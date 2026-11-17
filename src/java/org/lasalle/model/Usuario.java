@@ -1,100 +1,87 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package org.lasalle.model;
 
-import java.sql.Date;
-
+/** Datos de Usuario. Las fechas se intercambian en formato ISO-8601. */
 public class Usuario {
+  private String id;
+  private String nombre;
+  private String correo;
+  private String rol;
+  private boolean activo;
+  private String fechaCreacion;
+  private String fechaActualizacion;
 
-    private int idUsuario;
-    private String nombre;
-    private String primerApellido;
-    private String segundoApellido;
-    private Date fechaNacimiento;
-    private String tipoDiabetes;
-    private Date fechaRegistro;
-    private String email;
+  public Usuario() {}
 
-    public Usuario() {
-    }
+  public Usuario(
+      String id,
+      String nombre,
+      String correo,
+      String rol,
+      boolean activo,
+      String fechaCreacion,
+      String fechaActualizacion) {
+    this.id = id;
+    this.nombre = nombre;
+    this.correo = correo;
+    this.rol = rol;
+    this.activo = activo;
+    this.fechaCreacion = fechaCreacion;
+    this.fechaActualizacion = fechaActualizacion;
+  }
 
-    public Usuario(int idUsuario, String nombre, String primerApellido,
-                   String segundoApellido, Date fechaNacimiento,
-                   String tipoDiabetes, Date fechaRegistro, String email) {
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.fechaNacimiento = fechaNacimiento;
-        this.tipoDiabetes = tipoDiabetes;
-        this.fechaRegistro = fechaRegistro;
-        this.email = email;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public int getIdUsuario() {
-        return idUsuario;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
-    }
+  public String getNombre() {
+    return nombre;
+  }
 
-    public String getNombre() {
-        return nombre;
-    }
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+  public String getCorreo() {
+    return correo;
+  }
 
-    public String getPrimerApellido() {
-        return primerApellido;
-    }
+  public void setCorreo(String correo) {
+    this.correo = correo;
+  }
 
-    public void setPrimerApellido(String primerApellido) {
-        this.primerApellido = primerApellido;
-    }
+  public String getRol() {
+    return rol;
+  }
 
-    public String getSegundoApellido() {
-        return segundoApellido;
-    }
+  public void setRol(String rol) {
+    this.rol = rol;
+  }
 
-    public void setSegundoApellido(String segundoApellido) {
-        this.segundoApellido = segundoApellido;
-    }
+  public boolean isActivo() {
+    return activo;
+  }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
+  public void setActivo(boolean activo) {
+    this.activo = activo;
+  }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
+  public String getFechaCreacion() {
+    return fechaCreacion;
+  }
 
-    public String getTipoDiabetes() {
-        return tipoDiabetes;
-    }
+  public void setFechaCreacion(String fechaCreacion) {
+    this.fechaCreacion = fechaCreacion;
+  }
 
-    public void setTipoDiabetes(String tipoDiabetes) {
-        this.tipoDiabetes = tipoDiabetes;
-    }
+  public String getFechaActualizacion() {
+    return fechaActualizacion;
+  }
 
-    public Date getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setFechaActualizacion(String fechaActualizacion) {
+    this.fechaActualizacion = fechaActualizacion;
+  }
 }

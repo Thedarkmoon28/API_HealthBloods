@@ -5,3 +5,8 @@ target
 nbproject/private
 .env
 *.war
+
+.env.*
+!.env.example
+work
+outputs

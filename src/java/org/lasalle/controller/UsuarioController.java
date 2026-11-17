@@ -1,76 +1,72 @@
 package org.lasalle.controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import org.lasalle.connection.ConeccionMysql;
-import org.lasalle.model.Usuario;
+import java.sql.*;
+import java.time.*;
+import java.util.*;
+import org.lasalle.model.*;
 
-public class UsuarioController {
+public class UsuarioController extends ControladorBase {
+  public UsuarioController() {
+    super();
+  }
 
-    public List<Usuario> getUsuarios() throws SQLException {
-        List<Usuario> lista = new ArrayList<>();
-        String sql = "SELECT id_usuario, nombre, primer_apellido, segundo_apellido, "
-                + "fecha_nacimiento, tipo_diabetes, fecha_registro, email FROM users";
+  public UsuarioController(Usuario usuario) {
+    super(usuario);
+  }
 
-        ConeccionMysql connMysql = new ConeccionMysql();
-
-        try (Connection conn = connMysql.open();
-             PreparedStatement pstm = conn.prepareStatement(sql);
-             ResultSet rs = pstm.executeQuery()) {
-
-            while (rs.next()) {
-                Usuario user = new Usuario();
-
-                user.setIdUsuario(rs.getInt("id_usuario"));
-                user.setNombre(rs.getString("nombre"));
-                user.setPrimerApellido(rs.getString("primer_apellido"));
-                user.setSegundoApellido(rs.getString("segundo_apellido"));
-                user.setFechaNacimiento(rs.getDate("fecha_nacimiento"));
-                user.setTipoDiabetes(rs.getString("tipo_diabetes"));
-                user.setFechaRegistro(rs.getDate("fecha_registro"));
-                user.setEmail(rs.getString("email"));
-
-                lista.add(user);
-            }
-        }
-
-        return lista;
+  public List<Usuario> getUsuarios() throws SQLException {
+    admin();
+    try (var c = DatosController.open()) {
+      return ModeloMapper.usuarioLista(DatosController.query(c, USER + " ORDER BY nombre"));
     }
+  }
 
-    public int insertarUsuario(Usuario usuario) throws SQLException {
-        String sql = "INSERT INTO users "
-                + "(nombre, primer_apellido, segundo_apellido, fecha_nacimiento, "
-                + "tipo_diabetes, fecha_registro, email) "
-                + "VALUES (?, ?, ?, ?, ?, CURDATE(), ?)";
-
-        ConeccionMysql connMysql = new ConeccionMysql();
-
-        try (Connection conn = connMysql.open();
-             PreparedStatement pstm = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pstm.setString(1, usuario.getNombre());
-            pstm.setString(2, usuario.getPrimerApellido());
-            pstm.setString(3, usuario.getSegundoApellido());
-            pstm.setDate(4, usuario.getFechaNacimiento());
-            pstm.setString(5, usuario.getTipoDiabetes());
-            pstm.setString(6, usuario.getEmail());
-
-            if (pstm.executeUpdate() == 0) {
-                throw new SQLException("No se pudo registrar el usuario");
-            }
-
-            try (ResultSet keys = pstm.getGeneratedKeys()) {
-                if (keys.next()) {
-                    return keys.getInt(1);
-                }
-            }
-        }
-
-        throw new SQLException("No se pudo obtener el id del usuario registrado");
+  public ResultadoOperacion<Usuario> insertarUsuario(Map<String, Object> b) throws SQLException {
+    admin();
+    String name = ValidacionController.text(b, "nombre", 120),
+        email = ValidacionController.email(b),
+        role = ValidacionController.option(b, "rol", "ADMINISTRADOR", "EMPLEADO"),
+        hash = SeguridadController.hash(ValidacionController.password(b));
+    String id = id();
+    try (var c = DatosController.open()) {
+      DatosController.update(
+          c,
+          "INSERT INTO usuarios(id,nombre,correo,password_hash,rol) VALUES(?,?,?,?,?)",
+          id,
+          name,
+          email,
+          hash,
+          role);
+      return created(ModeloMapper.usuario(DatosController.one(c, USER + " WHERE id=?", id)));
     }
+  }
+
+  public Usuario actualizarUsuario(String id, Map<String, Object> b) throws SQLException {
+    admin();
+    ValidacionController.uuid(id);
+    String name = ValidacionController.text(b, "nombre", 120),
+        email = ValidacionController.email(b),
+        role = ValidacionController.option(b, "rol", "ADMINISTRADOR", "EMPLEADO");
+    boolean active = ValidacionController.bool(b, "activo");
+    if (id.equals(uid()) && (!active || !role.equals("ADMINISTRADOR")))
+      throw new ErrorAplicacion(
+          409, "No puedes desactivar tu cuenta ni quitarte el rol administrador");
+    try (var c = DatosController.open()) {
+      DatosController.one(c, USER + " WHERE id=?", id);
+      String extra = "";
+      List<Object> a = new ArrayList<>(List.of(name, email, role, active));
+      if (b.containsKey("password")) {
+        extra = ",password_hash=?";
+        a.add(SeguridadController.hash(ValidacionController.password(b)));
+      }
+      a.add(id);
+      DatosController.update(
+          c,
+          "UPDATE usuarios SET nombre=?,correo=?,rol=?,activo=?,token_version=token_version+1"
+              + extra
+              + " WHERE id=?",
+          a.toArray());
+      return ModeloMapper.usuario(DatosController.one(c, USER + " WHERE id=?", id));
+    }
+  }
 }

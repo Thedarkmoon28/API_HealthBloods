@@ -1,15 +1,19 @@
 services:
   - type: web
-    name: api-healthbloods
+    name: posh-control-api
     runtime: docker
     plan: free
-    healthCheckPath: /api/glucosa/saludar
+    healthCheckPath: /api/posh/salud
     envVars:
       - key: PORT
         value: 10000
+      - key: APP_TIMEZONE
+        value: America/Mexico_City
       - key: DB_URL
         sync: false
       - key: DB_USER
         sync: false
       - key: DB_PASSWORD
         sync: false
+      - key: AUTH_SECRET
+        generateValue: true
